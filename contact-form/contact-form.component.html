@@ -1,0 +1,67 @@
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <div ngModelGroup="contact">
+    <div class="form-group mb-3">
+      <label for="firstName" class="form-label">First name</label>
+      <input
+        type="text"
+        ngModel
+        name="firstName"
+        #firstName="ngModel"
+        class="form-control"
+        id="firstName"
+        required
+        minlength="3"
+        maxlength="10"
+        pattern="banana"
+      />
+      <div
+        class="alert alert-danger"
+        *ngIf="!firstName.valid && firstName.touched"
+      >
+        <div *ngIf="firstName.errors?.['required']">
+          First name is required.
+        </div>
+        <div *ngIf="firstName.errors?.['minlength']">
+          First name must be at least
+          {{ firstName.errors?.['minlength'].requiredLength }} charchters
+        </div>
+        <div *ngIf="firstName.errors?.['pattern']">
+          First name doesn't match the pattern.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="comment" class="form-label">Comment</label>
+    <textarea
+      id="comment"
+      ngModel
+      name="comment"
+      class="form-control"
+      cols="30"
+      rows="10"
+    ></textarea>
+  </div>
+  <div class="form-group">
+    <label for="contactMethod">contact Method</label
+    ><select
+      ngModel
+      name="contactMethod"
+      id="contactMethod"
+      class="form-control"
+      multiple
+    >
+      <option *ngFor="let method of contactMethod" [value]="method.id">
+        {{ method.name }}
+      </option>
+    </select>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ngModel name="isSubscribed" />
+      Subscribe to mailing list
+    </label>
+  </div>
+  <p>{{ f.value | json }}</p>
+  <button class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+</form>
